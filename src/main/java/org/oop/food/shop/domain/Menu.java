@@ -8,10 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
+import org.oop.food.common.money.domain.Money;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,6 @@ import java.util.List;
 @Table(name = "MENUS")
 @Getter
 public class Menu {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MENU_ID")
@@ -33,26 +32,24 @@ public class Menu {
     @Column(name = "FOOD_DESCRIPTION")
     private String description;
 
-    @OneToOne
-    @JoinColumn(name = "MENU_ID")
-    private Shop shop;
+    @Column(name = "SHOP_ID")
+    private Long shopId;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "MENU_ID")
     private final List<OptionGroupSpecification> optionGroupSpecs = new ArrayList<>();
 
-    public Menu(Shop shop, String name, String description, OptionGroupSpecification basic, OptionGroupSpecification... groups) {
-        this(null, shop, name, description, basic, Arrays.asList(groups));
+    public Menu(Long shopId, String name, String description, OptionGroupSpecification basic, OptionGroupSpecification... groups) {
+        this(null, shopId, name, description, basic, Arrays.asList(groups));
     }
 
     @Builder
-    public Menu(Long id, Shop shop, String name, String description, OptionGroupSpecification basic, List<OptionGroupSpecification> additives) {
+    public Menu(Long id, Long shopId, String name, String description, OptionGroupSpecification basic, List<OptionGroupSpecification> additives) {
         this.id = id;
-        this.shop = shop;
+        this.shopId = shopId;
         this.name = name;
         this.description = description;
 
-        this.shop.addMenu(this);
         this.optionGroupSpecs.add(basic);
         this.optionGroupSpecs.addAll(additives);
     }
@@ -75,5 +72,17 @@ public class Menu {
 
     private boolean isSatisfiedBy(OptionGroupData optionGroupData) {
         return optionGroupSpecs.stream().anyMatch(spec -> spec.isSatisfiedBy(optionGroupData));
+    }
+
+    public Money getBasePrice() {
+        return getBasicOptionGroupSpecs().getOptionSpecs().getFirst().getPrice();
+    }
+
+    private OptionGroupSpecification getBasicOptionGroupSpecs() {
+        return optionGroupSpecs
+                .stream()
+                .filter(spec -> spec.isBasic())
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
     }
 }

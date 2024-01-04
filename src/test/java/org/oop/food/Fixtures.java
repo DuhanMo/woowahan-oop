@@ -2,6 +2,7 @@ package org.oop.food;
 
 import org.oop.food.common.money.domain.Money;
 import org.oop.food.common.money.domain.Ratio;
+import org.oop.food.delivery.domain.Delivery;
 import org.oop.food.order.domain.Order;
 import org.oop.food.order.domain.OrderLineItem;
 import org.oop.food.order.domain.OrderOption;
@@ -11,13 +12,15 @@ import org.oop.food.shop.domain.OptionData;
 import org.oop.food.shop.domain.OptionGroupData;
 import org.oop.food.shop.domain.OptionGroupSpecification;
 import org.oop.food.shop.domain.OptionSpecification;
+import org.oop.food.shop.domain.Shop;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.oop.food.delivery.domain.Delivery.DeliveryBuilder;
+import static org.oop.food.delivery.domain.Delivery.DeliveryStatus;
 import static org.oop.food.order.domain.Order.OrderBuilder;
-import static org.oop.food.order.domain.Order.OrderStatus;
 import static org.oop.food.order.domain.OrderLineItem.OrderLineItemBuilder;
 import static org.oop.food.order.domain.OrderOption.OrderOptionBuilder;
 import static org.oop.food.order.domain.OrderOptionGroup.OrderOptionGroupBuilder;
@@ -27,12 +30,11 @@ import static org.oop.food.shop.domain.OptionGroupData.OptionGroupDataBuilder;
 import static org.oop.food.shop.domain.OptionGroupSpecification.OptionGroupSpecificationBuilder;
 import static org.oop.food.shop.domain.OptionSpecification.OptionSpecificationBuilder;
 import static org.oop.food.shop.domain.Shop.ShopBuilder;
-import static org.oop.food.shop.domain.Shop.builder;
 
 public class Fixtures {
-
     public static ShopBuilder aShop() {
-        return builder()
+        return Shop.builder()
+                .id(1L)
                 .name("오겹돼지")
                 .commissionRate(Ratio.valueOf(0.01))
                 .open(true)
@@ -42,7 +44,8 @@ public class Fixtures {
 
     public static MenuBuilder aMenu() {
         return Menu.builder()
-                .shop(aShop().build())
+                .id(1L)
+                .shopId(aShop().build().getId())
                 .name("삼겹살 1인세트")
                 .description("삼겹살 + 야채세트 + 김치찌개")
                 .basic(anOptionGroupSpec()
@@ -63,7 +66,6 @@ public class Fixtures {
                 .exclusive(true)
                 .name("기본")
                 .options(Collections.singletonList(anOptionSpec().build()));
-
     }
 
     public static OptionSpecificationBuilder anOptionSpec() {
@@ -86,16 +88,17 @@ public class Fixtures {
 
     public static OrderBuilder anOrder() {
         return Order.builder()
+                .id(1L)
                 .userId(1L)
-                .shop(aShop().build())
-                .status(OrderStatus.ORDERED)
+                .shopId(aShop().build().getId())
+                .status(Order.OrderStatus.ORDERED)
                 .orderedTime(LocalDateTime.of(2020, 1, 1, 12, 0))
                 .items(Collections.singletonList(anOrderLineItem().build()));
     }
 
     public static OrderLineItemBuilder anOrderLineItem() {
         return OrderLineItem.builder()
-                .menu(aMenu().build())
+                .menuId(aMenu().build().getId())
                 .name("삼겹살 1인세트")
                 .count(1)
                 .groups(Arrays.asList(
@@ -119,5 +122,12 @@ public class Fixtures {
         return OrderOption.builder()
                 .name("소(250g)")
                 .price(Money.wons(12000));
+    }
+
+    public static DeliveryBuilder aDelivery() {
+        return Delivery.builder()
+                .id(1L)
+                .deliveryStatus(DeliveryStatus.DELIVERING)
+                .orderId(anOrder().build().getId());
     }
 }
