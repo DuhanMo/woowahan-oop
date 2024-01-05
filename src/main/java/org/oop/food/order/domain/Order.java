@@ -13,7 +13,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 @Entity
 @Table(name = "ORDERS")
 @Getter
-public class Order {
+public class Order extends AbstractAggregateRoot<Order> {
     public enum OrderStatus {ORDERED, PAYED, DELIVERED}
 
     @Id
@@ -73,10 +74,12 @@ public class Order {
 
     public void payed() {
         orderStatus = OrderStatus.PAYED;
+        registerEvent(new OrderPayedEvent(this));
     }
 
     public void delivered() {
         orderStatus = OrderStatus.DELIVERED;
+        registerEvent(new OrderDeliveredEvent(this));
     }
 
     private void ordered() {

@@ -1,10 +1,10 @@
-package org.oop.food.common.money.infra;
+package org.oop.food.generic.money.infra;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
 
-@Converter(autoApply = true)
+@Converter
 public class MoneyConverter implements AttributeConverter<Money, Long> {
     @Override
     public Long convertToDatabaseColumn(Money money) {

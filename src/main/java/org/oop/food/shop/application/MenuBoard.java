@@ -1,7 +1,7 @@
 package org.oop.food.shop.application;
 
 import lombok.Data;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
 import org.oop.food.shop.domain.Menu;
 import org.oop.food.shop.domain.Shop;
 

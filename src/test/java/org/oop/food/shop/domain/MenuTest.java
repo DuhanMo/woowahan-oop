@@ -1,7 +1,7 @@
 package org.oop.food.shop.domain;
 
 import org.junit.jupiter.api.Test;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
 
 import java.util.Collections;
 

@@ -2,7 +2,7 @@ package org.oop.food.order.service;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
 
 import java.util.ArrayList;
 import java.util.Arrays;

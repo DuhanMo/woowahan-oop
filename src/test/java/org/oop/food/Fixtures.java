@@ -1,8 +1,8 @@
 package org.oop.food;
 
-import org.oop.food.common.money.domain.Money;
-import org.oop.food.common.money.domain.Ratio;
 import org.oop.food.delivery.domain.Delivery;
+import org.oop.food.generic.money.domain.Money;
+import org.oop.food.generic.money.domain.Ratio;
 import org.oop.food.order.domain.Order;
 import org.oop.food.order.domain.OrderLineItem;
 import org.oop.food.order.domain.OrderOption;

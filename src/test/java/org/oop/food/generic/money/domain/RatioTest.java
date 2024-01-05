@@ -1,4 +1,4 @@
-package org.oop.food.common.money.domain;
+package org.oop.food.generic.money.domain;
 
 import org.junit.jupiter.api.Test;
 

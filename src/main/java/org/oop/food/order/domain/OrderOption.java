@@ -1,10 +1,12 @@
 package org.oop.food.order.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
 import lombok.Builder;
 import lombok.Getter;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
+import org.oop.food.generic.money.infra.MoneyConverter;
 import org.oop.food.shop.domain.OptionData;
 
 
@@ -16,6 +18,7 @@ public class OrderOption {
     private String name;
 
     @Column(name = "PRICE")
+    @Convert(converter = MoneyConverter.class)
     private Money price;
 
     @Builder

@@ -11,7 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
 import org.oop.food.shop.domain.OptionGroupData;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package org.oop.food.shop.domain;
 
 import lombok.Builder;
 import lombok.Data;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
 
 @Data
 public class OptionData {

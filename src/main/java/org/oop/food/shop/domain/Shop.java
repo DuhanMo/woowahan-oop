@@ -1,21 +1,18 @@
 package org.oop.food.shop.domain;
 
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
-import org.oop.food.common.money.domain.Money;
-import org.oop.food.common.money.domain.Ratio;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.oop.food.generic.money.domain.Money;
+import org.oop.food.generic.money.domain.Ratio;
+import org.oop.food.generic.money.infra.MoneyConverter;
+import org.oop.food.generic.money.infra.RatioConverter;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -36,17 +33,12 @@ public class Shop {
     private boolean open;
 
     @Column(name = "MIN_ORDER_AMOUNT")
+    @Convert(converter = MoneyConverter.class)
     private Money minOrderAmount;
 
     @Column(name = "COMMISSION_RATE")
+    @Convert(converter = RatioConverter.class)
     private Ratio commissionRate;
-
-    @Column(name = "COMMISSION")
-    private Money commission = Money.ZERO;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "SHOP_ID")
-    private final List<Menu> menus = new ArrayList<>();
 
     public Shop(String name, boolean open, Money minOrderAmount) {
         this(name, open, minOrderAmount, Ratio.valueOf(0), Money.ZERO);
@@ -63,21 +55,16 @@ public class Shop {
         this.open = open;
         this.minOrderAmount = minOrderAmount;
         this.commissionRate = commissionRate;
-        this.commission = commission;
     }
 
     protected Shop() {
-    }
-
-    public void addMenu(Menu menu) {
-        menus.add(menu);
     }
 
     public boolean isValidOrderAmount(Money amount) {
         return amount.isGreaterThanOrEqual(minOrderAmount);
     }
 
-    public void billCommissionFee(Money price) {
-        commission = commission.plus(commissionRate.of(price));
+    public Money calculateCommissionFee(Money price) {
+        return commissionRate.of(price);
     }
 }

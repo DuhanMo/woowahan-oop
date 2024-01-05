@@ -1,10 +1,10 @@
-package org.oop.food.common.money.infra;
+package org.oop.food.generic.money.infra;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import org.oop.food.common.money.domain.Ratio;
+import org.oop.food.generic.money.domain.Ratio;
 
-@Converter(autoApply = true)
+@Converter
 public class RatioConverter implements AttributeConverter<Ratio, Double> {
     @Override
     public Double convertToDatabaseColumn(Ratio ratio) {

@@ -1,6 +1,7 @@
 package org.oop.food.shop.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,7 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
+import org.oop.food.generic.money.infra.MoneyConverter;
 
 import java.util.Objects;
 
@@ -26,6 +28,7 @@ public class OptionSpecification {
     private String name;
 
     @Column(name = "PRICE")
+    @Convert(converter = MoneyConverter.class)
     private Money price;
 
     public OptionSpecification(String name, Money price) {

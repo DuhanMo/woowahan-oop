@@ -1,6 +1,6 @@
 package org.oop.food;
 
-import org.oop.food.common.money.domain.Money;
+import org.oop.food.generic.money.domain.Money;
 import org.oop.food.order.service.Cart;
 import org.oop.food.order.service.OrderService;
 import org.slf4j.Logger;

@@ -1,8 +1,8 @@
 package org.oop.food.shop.domain;
 
 import org.junit.jupiter.api.Test;
-import org.oop.food.common.money.domain.Money;
-import org.oop.food.common.money.domain.Ratio;
+import org.oop.food.generic.money.domain.Money;
+import org.oop.food.generic.money.domain.Ratio;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.oop.food.Fixtures.aShop;
@@ -19,14 +19,12 @@ class ShopTest {
     }
 
     @Test
-    void 수수료_부과() {
+    void 수수료_계산() {
         Shop shop = aShop()
                 .commissionRate(Ratio.valueOf(0.1))
                 .commission(Money.ZERO)
                 .build();
 
-        shop.billCommissionFee(Money.wons(1000));
-
-        assertThat(shop.getCommission()).isEqualTo(Money.wons(100));
+        assertThat(shop.calculateCommissionFee(Money.wons(1000))).isEqualTo(Money.wons(100));
     }
 }
